@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:flutter/material.dart';
 
+const String URI = "http://10.0.2.2:8080";
+const String TOKEN = "input login token here";
+
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -26,12 +30,11 @@ class _MyAppState extends State<MyApp> {
   initSocket() async {
     setState(() => _isProbablyConnected = true);
     socket = await manager.createInstance(SocketOptions(
-        "https://pocket-therapist.work",
-        // "http://10.0.2.2:8080",
+        URI,
         nameSpace: "/basicChat",
         // ログイントークン
         query: {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU3LCJpYXQiOjE1ODI3OTI4NjcsImV4cCI6MTU4NDAwMjQ2N30.eeTIIoG57M-5qLunwTNuriJid4VBQfMeZOwgdL8KFPk",
+          "token": TOKEN,
         },
         //Enable or disable platform channel logging
         enableLogging: false,
@@ -47,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     socket.onError(pprint);
     socket.onDisconnect(pprint);
     socket.on("errorInServer", (err) {
-      print(json.encode(err));
+      print(err);
     });
     socket.on("joinApproved", (data) {
       print(data);
